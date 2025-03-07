@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Builder</title>
+    <style>
+        /* Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0e0e0e;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: linear-gradient(45deg, cyan, magenta, blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glowText 2s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 10px cyan; }
+            100% { text-shadow: 0 0 20px magenta; }
+        }
+
+        .glowing-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background: transparent;
+            border: 2px solid cyan;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px cyan, 0 0 40px cyan;
+        }
+
+        .glowing-btn:hover {
+            background: cyan;
+            color: #000;
+            box-shadow: 0 0 30px cyan;
+        }
+
+        /* Floating animations */
+        .floating {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, cyan, magenta);
+            box-shadow: 0 0 20px cyan;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatAnimation 5s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-30px); }
+        }
+
+        .floating:nth-child(1) { top: 20%; left: 10%; animation-duration: 4s; }
+        .floating:nth-child(2) { top: 50%; left: 30%; animation-duration: 6s; }
+        .floating:nth-child(3) { top: 70%; left: 60%; animation-duration: 5s; }
+        .floating:nth-child(4) { top: 30%; left: 80%; animation-duration: 7s; }
+        .floating:nth-child(5) { top: 60%; left: 90%; animation-duration: 4.5s; }
+
+        /* Gradient background animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,1) 100%);
+            z-index: -1;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+            width: 400px;
+        }
+
+        .modal-content input,
+        .modal-content select,
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background: cyan;
+            color: #000;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .modal-content button:hover {
+            background: magenta;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI Resume Builder</h1>
+        <p>Generate professional resumes with AI in seconds!</p>
+        <button class="glowing-btn" id="startBtn">Start Now</button>
+    </div>
+
+    <!-- Floating glowing effects -->
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+    <div class="floating"></div>
+
+    <!-- Modal for collecting resume details -->
+    <div class="modal" id="resumeModal">
+        <div class="modal-content">
+            <h2>Fill in your details</h2>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" placeholder="Enter your phone number">
+
+            <label for="experience">Experience Level</label>
+            <select id="experience">
+                <option value="entry">Entry Level</option>
+                <option value="mid">Mid Level</option>
+                <option value="senior">Senior Level</option>
+            </select>
+
+            <label for="resumeType">Choose Resume Type</label>
+            <select id="resumeType">
+                <option value="chronological">Chronological</option>
+                <option value="functional">Functional</option>
+                <option value="combination">Combination</option>
+            </select>
+
+            <button id="generateBtn">Generate Resume</button>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const resumeModal = document.getElementById('resumeModal');
+        const generateBtn = document.getElementById('generateBtn');
+
+        startBtn.addEventListener('click', () => {
+            resumeModal.style.display = 'flex';
+        });
+
+        generateBtn.addEventListener('click', () => {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const experience = document.getElementById('experience').value;
+            const resumeType = document.getElementById('resumeType').value;
+
+            if (name && email && phone && experience && resumeType) {
+                alert(`Resume details collected:
+                Name: ${name}
+                Email: ${email}
+                Phone: ${phone}
+                Experience Level: ${experience}
+                Resume Type: ${resumeType}`);
+                resumeModal.style.display = 'none';
+            } else {
+                alert('Please fill all the fields.');
+            }
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === resumeModal) {
+                resumeModal.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>

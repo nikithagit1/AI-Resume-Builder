@@ -1,0 +1,115 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 50% 98%;
+    --foreground: 210 40% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 20%;
+
+    --primary: 215 25% 49%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 25% 97%;
+    --secondary-foreground: 215 25% 49%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 20% 50%;
+
+    --accent: 180 15% 60%;
+    --accent-foreground: 215 25% 25%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 215 25% 49%;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md shadow-md border border-white/20;
+  }
+  
+  .button-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .button-shine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.5s ease-out;
+    opacity: 0;
+  }
+  
+  .button-shine:hover::after {
+    opacity: 1;
+    transform: rotate(45deg) translate(50%, 50%);
+  }
+  
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight;
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .page-transition-enter {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  .page-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  .form-container {
+    @apply p-6 md:p-8 lg:p-10 rounded-xl glass-card max-w-4xl mx-auto;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  }
+}
